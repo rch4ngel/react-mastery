@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 // import styled from 'styled-components';
 import Equipment from '../components/Equipment/Equipment';
+import Users from '../components/Users/Users'
 import Cockpit from '../components/Cockpit/Cockpit'
 import Hook from '../components/HookFeature/Hook';
 import PassingMethodReferencesFeature from '../components/PassingMethodReferencesFeature/PassingMethodReferencesFeature';
@@ -21,23 +22,78 @@ import TwoWayBindingFeature from '../TwoWayBindingFeature/TwoWayBindingFeature';
 // `;
 
 class App extends Component {
-    state = {
-        equipment: [
-            { id: 0, name: 'TD221', type: 'Cat D10' },
-            { id: 1, name: 'TD222', type: 'Cat D10' },
-            { id: 2, name: 'TD333', type: 'Cat D9' }
-        ],
-        showEquipment: false,
-        passedMethodReferenceFeature: [
-            { id: 0, name: 'Pizza', calories: 500 },
-            { id: 1, name: 'Cheeseburger', calories: 475 }
-        ],
-        twoWayBindingFeature: [
-            { id: 0, name: 'Mizi' },
-            { id: 1, name: 'John' },
-            { id: 2, name: 'Aiden' }
-        ]
-    };
+    // Lifecycle Hook 1
+    //--------------------------------------------------------
+    constructor(props) {
+        super(props);
+        console.log('[App.js] constructor');
+        this.state = {
+            equipment: [
+                {id: 0, name: 'TD221', type: 'Cat D10'},
+                {id: 1, name: 'TD222', type: 'Cat D10'},
+                {id: 2, name: 'TD333', type: 'Cat D9'}
+            ],
+            showEquipment: false,
+            passedMethodReferenceFeature: [
+                {id: 0, name: 'Pizza', calories: 500},
+                {id: 1, name: 'Cheeseburger', calories: 475}
+            ],
+            twoWayBindingFeature: [
+                {id: 0, name: 'Mizi'},
+                {id: 1, name: 'John'},
+                {id: 2, name: 'Aiden'}
+            ],
+            users: [
+                {id: 0, name: 'Jubei Kibagami', email: 'jubie.kibagami@gmail.com'},
+                {id: 1, name: 'Ryu', email: 'ryu@gmail.com'},
+                {id: 3, name: 'Clark Kent', email: 'superkent@gmail.com'}
+            ]
+        };
+    }
+    // The following setting of state is a modern approach.
+    // When declared this way the constructor is automatically called
+    // with the state assignment.
+    // state = {
+    //     equipment: [
+    //         { id: 0, name: 'TD221', type: 'Cat D10' },
+    //         { id: 1, name: 'TD222', type: 'Cat D10' },
+    //         { id: 2, name: 'TD333', type: 'Cat D9' }
+    //     ],
+    //     showEquipment: false,
+    //     passedMethodReferenceFeature: [
+    //         { id: 0, name: 'Pizza', calories: 500 },
+    //         { id: 1, name: 'Cheeseburger', calories: 475 }
+    //     ],
+    //     twoWayBindingFeature: [
+    //         { id: 0, name: 'Mizi' },
+    //         { id: 1, name: 'John' },
+    //         { id: 2, name: 'Aiden' }
+    //     ],
+    //     users: [
+    //         {id: 0, name: 'Jubei Kibagami', email: 'jubie.kibagami@gmail.com'},
+    //         {id: 1, name: 'Ryu', email: 'ryu@gmail.com'},
+    //         {id: 3, name: 'Clark Kent', email: 'superkent@gmail.com'}
+    //     ]
+    // };
+
+    // Lifecycle Hook 2
+    //--------------------------------------------------------
+    static getDerivedStateFromProps(props, state) {
+        console.log('[App.js] getDerivedStateFromProps', props);
+        return state;
+    }
+
+    // Lifecycle Hook 3
+    // -------------------------------------------------------
+    UNSAFE_componentWillMount() {
+        console.log('[App.js] componentWillMount')
+    }
+
+    // Lifecycle Hook 4
+    // -------------------------------------------------------
+    componentDidMount() {
+        console.log('[App.js] componentDidMount')
+    }
 
     changeEquipmentTypeHandler = () => {
         this.setState({
@@ -77,7 +133,7 @@ class App extends Component {
         // Create a copy of the Updated twoWayBindingFeature state.
         const twoWayBindingFeature = [...this.state.twoWayBindingFeature];
         // Set the copy of the updated twoWayBindingFeature state to include the
-        // updated person.
+        // updated user.
         twoWayBindingFeature[personIndex] = person;
 
         // Merge the copied state into the original twoWayBindingFeature
@@ -103,7 +159,10 @@ class App extends Component {
         this.setState({equipment: equipment});
     };
 
+  // Lifecycle Hook 5
+  //--------------------------------------------------------
   render() {
+      console.log('[App.js] render');
   // Component specific style using Radium for psuedo-selector
   // const buttonStyle = {
   //     backgroundColor: 'white',
@@ -159,7 +218,7 @@ class App extends Component {
           })}
 
           <button onClick={this.changePassedMethodReferenceValueHandler.bind(this, 'Spaghetti')}>Change Food</button>
-
+          <Users users={this.state.users}/>
       </div>
         // Is the same as:
        // React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hexagon MC Pro'))
