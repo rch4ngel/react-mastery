@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import './App.css';
-import styled from 'styled-components';
-import Equipment from './Equipment/Equipment';
-import Hook from './HookFeature/Hook';
-import PassingMethodReferencesFeature from './PassingMethodReferencesFeature/PassingMethodReferencesFeature';
-import TwoWayBindingFeature from './TwoWayBindingFeature/TwoWayBindingFeature';
+import classes from './App.css';
+// import styled from 'styled-components';
+import Equipment from '../components/Equipment/Equipment';
+import Cockpit from '../components/Cockpit/Cockpit'
+import Hook from '../components/HookFeature/Hook';
+import PassingMethodReferencesFeature from '../components/PassingMethodReferencesFeature/PassingMethodReferencesFeature';
+import TwoWayBindingFeature from '../TwoWayBindingFeature/TwoWayBindingFeature';
 
 // styled-components
-const StyledButton = styled.button `
-      background-color: ${props => props.alt ? 'red' : 'purple' };
-      font: inherit;
-      border: 1px solid blue;
-      padding: 8px;
-      cursor: pointer;
-      &:hover {
-          background-color: ${props => props.alt ? 'grey' : 'magenta'};
-          color: 'black';
-      }
-`;
+// const StyledButton = styled.button `
+//       background-color: ${props => props.alt ? 'red' : 'purple' };
+//       font: inherit;
+//       border: 1px solid blue;
+//       padding: 8px;
+//       cursor: pointer;
+//       &:hover {
+//           background-color: ${props => props.alt ? 'grey' : 'magenta'};
+//           color: 'black';
+//       }
+// `;
 
 class App extends Component {
     state = {
@@ -103,7 +104,6 @@ class App extends Component {
     };
 
   render() {
-
   // Component specific style using Radium for psuedo-selector
   // const buttonStyle = {
   //     backgroundColor: 'white',
@@ -121,33 +121,20 @@ class App extends Component {
     if (this.state.showEquipment) {
         // Conditionally Render a Dynamic List.
         equipment = (
-            <div className="EquipmentContainer">
-                {this.state.equipment.map((equipment, index) => {
-                    return <Equipment
-                        name={equipment.name}
-                        type={equipment.type}
-                        click={() => this.deleteEquipmentHandler(index)}
-                        key={equipment.id}
-                    />
-                })}
-            </div>
+            <Equipment
+                equipment={this.state.equipment}
+                clicked={this.deleteEquipmentHandler}
+                changed={this.twoWayBindingNameChangeHandler}/>
         );
     }
 
-    // Setting class names dynamically for styling
-    let classes = [];
-
-    if (this.state.passedMethodReferenceFeature.length <= 2) {
-        classes.push('red');
-    }
-    if (this.state.passedMethodReferenceFeature.length <= 1) {
-        classes.push('bold');
-    }
-
     return (
-      <div className="App">
-        <h1>Hexagon MC Pro</h1>
-          <StyledButton alt={this.state.showEquipment} onClick={this.toggleEquipmentHandler}>Toggle Equipment</StyledButton>
+      <div className={classes.App}>
+          <Cockpit
+            showEquipment={this.state.showEquipment}
+            equipment={this.state.equipment}
+            clicked={this.toggleEquipmentHandler}
+          />
           {equipment}
           <button onClick={this.changeEquipmentTypeHandler}>Change Type</button>
           {this.state.twoWayBindingFeature.map((person, index) => {
@@ -163,7 +150,6 @@ class App extends Component {
           {this.state.passedMethodReferenceFeature.map((food, index) => {
               return (
               <PassingMethodReferencesFeature
-                className={classes.join(' ')}
                 name={food.name}
                 calories={food.calories}
                 click={this.changePassedMethodReferenceValueHandler.bind(this, 'Lasagna')}
