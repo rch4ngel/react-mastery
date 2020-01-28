@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 // In case we wanted to use the radium package for using pseudo-selectors.
 // -----------------------------------------------------------------------
 // import Radium from 'radium'
@@ -14,21 +14,16 @@ import classes from './EquipmentItem.css'
 // We can also extract the text within a component, e.g.
 //  <Equipment name='TD221' type='Cat D10'>The first created Dozer</Equipment>
 //  The `The first created Dozer` can be extracted by using props.children. Shown below.
-const equipmentItem = (props) => {
-
-    // Inline CSS for component specific styles.
-    // Making use of Radium for a media query
-    // const StyledDiv = styled.div`
-    //
-    // `;
-
-    return (
-        <div className={classes.EquipmentItem} onClick={props.click}>
-            <h1>{props.name}</h1>
-            <h2>{props.type}</h2>
-            <p>{props.children}</p>
-        </div>
-    )
+class EquipmentItem extends Component {
+    render () {
+        return (
+                <div className={classes.EquipmentItem} onClick={this.props.click}>
+                    <h1>{this.props.name}</h1>
+                    <h2>{this.props.type}</h2>
+                    <p>{this.props.children}</p>
+                </div>
+            )
+    }
 };
 
-export default equipmentItem
+export default EquipmentItem
